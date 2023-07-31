@@ -2,10 +2,16 @@
 
 namespace Xamurai
 {
+    /// <summary>
+    /// Catch scrollView scrolled event. Do something cool
+    /// </summary>
 	public class ScrollViewBehavior : Behavior<ScrollView>
 	{
+        // hang onto the previous val
         double previousOffset;
+        public double ScreenWidth { get; set; }
 
+        // attach to my scrollview object
         protected override void OnAttachedTo(ScrollView myScrollView)
         {
             myScrollView.Scrolled += MyScrollView_Scrolled;
@@ -13,9 +19,16 @@ namespace Xamurai
             base.OnAttachedTo(myScrollView);
         }
 
+        /// <summary>
+        /// Scrolled event. Handle child positions to show two columns on each swipe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MyScrollView_Scrolled(object sender, ScrolledEventArgs e)
         {
             ScrollView scrollView = (ScrollView)sender;
+
+            ScreenWidth = MainPage.Constant.ScreenWidth;
 
             var x = scrollView.ScrollX;
             var y = scrollView.ScrollY;
@@ -25,15 +38,18 @@ namespace Xamurai
 
             if (previousOffset >= e.ScrollX)
             {
-                // left direction  
-                await scrollView.ScrollToAsync(x - 180, y, false);
+                // left direction
+                // scroll left the width of a child element
+                await scrollView.ScrollToAsync(x - (ScreenWidth / 2), y, false);
             }
             else
             {
-                //Down direction 
-                await scrollView.ScrollToAsync(x + 180, y, false);
+                // right direction
+                // scroll right the width of a child element
+                await scrollView.ScrollToAsync(x + (ScreenWidth / 2), y, false);
             }
 
+            // hang onto val
             previousOffset = e.ScrollX;
         }
     }

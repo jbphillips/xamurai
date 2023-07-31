@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Xamurai
@@ -16,9 +17,24 @@ namespace Xamurai
 
 			BindingContext = this;
 			InitializeComponent();
-		}
 
-		public ICommand OpenListViewCommand { get; }
+            // Get Metrics
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+
+            // Width (in pixels)
+            var width = mainDisplayInfo.Width;
+
+            // Height (in pixels)
+            var height = mainDisplayInfo.Height;
+        }
+
+        public struct Constant
+        {
+            public static double ScreenWidth = (DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density) / 2;
+            public static double ScreenHeight = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+        }
+
+        public ICommand OpenListViewCommand { get; }
 
 		public ICommand OpenCollectionViewCommand { get; }
 
