@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamurai.iOS", "Xamurai.iOS\Xamurai.iOS.csproj", "{B27A7460-CA2B-466B-BC3C-5257EE222A98}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamurai", "Xamurai\Xamurai.csproj", "{0091344A-DE83-4811-8BB3-F53B88096071}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamurai.Android", "Xamurai.Android\Xamurai.Android.csproj", "{2B646F88-8011-4F07-99AB-47D986C6C215}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{60BC3A8E-1876-41DF-A152-76B64A10C6A3}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
