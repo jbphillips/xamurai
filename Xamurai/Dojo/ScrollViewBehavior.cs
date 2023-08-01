@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Drawing;
+using Xamarin.Forms;
 
 namespace Xamurai
 {
@@ -9,7 +10,6 @@ namespace Xamurai
 	{
         // hang onto the previous val
         double previousOffset;
-        public double ScreenWidth { get; set; }
 
         // attach to my scrollview object
         protected override void OnAttachedTo(ScrollView myScrollView)
@@ -24,33 +24,58 @@ namespace Xamurai
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void MyScrollView_Scrolled(object sender, ScrolledEventArgs e)
+        private void MyScrollView_Scrolled(object sender, ScrolledEventArgs e)
         {
             ScrollView scrollView = (ScrollView)sender;
 
-            ScreenWidth = MainPage.Constant.ScreenWidth;
+            Xamarin.Forms.Point point = scrollView.GetScrollPositionForElement(scrollView, ScrollToPosition.Start);
 
-            var x = scrollView.ScrollX;
-            var y = scrollView.ScrollY;
+            double deviceViewWidth = MainPage.Constant.ScreenWidth;
 
-            if (e.ScrollX == 0)
+            if (scrollView.ScrollX == 0)
                 return;
 
-            if (previousOffset >= e.ScrollX)
+            if (previousOffset >= scrollView.ScrollX)
             {
-                // left direction
-                // scroll left the width of a child element
-                await scrollView.ScrollToAsync(x - (ScreenWidth / 2), y, false);
+                // scroll left the width of a two child elements
+
+                // Take 1
+                // This scroll speed is fast. keeps up with content.
+                //await scrollView.ScrollToAsync(mx - (ScreenWidth / 2), my, false);
+
+                // Take 2
+                // Trying again, I realize that if I only used the RelativeScrollX or ScrollX values,
+                // the views translate as keeping pace with the content. I want them to scroll a little slower
+                var animation = new Animation(
+                    callback: x => scrollView.ScrollToAsync(x - (deviceViewWidth / 2), point.Y, animated: false),
+                    start: scrollView.ScrollX,
+                    end: point.X - (deviceViewWidth / 2));
+
+                animation.Commit(
+                    owner: scrollView,
+                    name: "Scroll",
+                    length: 10000,
+                    easing: Easing.CubicIn);
             }
             else
             {
-                // right direction
-                // scroll right the width of a child element
-                await scrollView.ScrollToAsync(x + (ScreenWidth / 2), y, false);
+                // scroll right the width of a two child elements
+                //await scrollView.ScrollToAsync(mx + (ScreenWidth / 2), my, false);
+
+                var animation = new Animation(
+                    callback: x => scrollView.ScrollToAsync(x + (deviceViewWidth / 2), point.Y, animated: false),
+                    start: scrollView.ScrollX,
+                    end: point.X + (deviceViewWidth / 2));
+
+                animation.Commit(
+                    owner: scrollView,
+                    name: "Scroll",
+                    length: 10000,
+                    easing: Easing.CubicIn);
             }
 
             // hang onto val
-            previousOffset = e.ScrollX;
+            previousOffset = scrollView.ScrollX;
         }
     }
 }
